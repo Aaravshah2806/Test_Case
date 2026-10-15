@@ -1,6 +1,7 @@
 # Salon appointment app — Part B plan
 
-Status: planning only; implementation waits for the user's next instruction.
+Status: Level 1 implemented; local checks pass. Supabase integration verification is pending
+the user's database configuration. Level 2 has not started.
 
 ## Scope and location
 
@@ -10,15 +11,17 @@ Build the salon app in `part-b/`, alongside the existing `part-a/`. The user cal
 
 - Frontend: React with JavaScript, Vite, plain CSS, and browser fetch.
 - Backend: Python FastAPI, Pydantic validation, SQLAlchemy, Alembic migrations, and psycopg.
-- Database: PostgreSQL. Provide Docker Compose for local PostgreSQL and an environment-variable database URL.
+- Database: Supabase PostgreSQL, following the user's updated preference. Connect only through
+  the Python backend using an environment-variable database URL and encrypted Session pooler connection.
 - Testing: pytest for scheduling logic and API/database integration checks; frontend production build and manual browser walkthrough.
-- Structure: `part-b/frontend/`, `part-b/backend/`, `part-b/docker-compose.yml`, `part-b/.env.example`, and `part-b/README.md`.
+- Structure: `part-b/frontend/`, `part-b/backend/`, `part-b/backend/.env.example`, and `part-b/README.md`.
 
 ## Data model
 
 - Services: ID, name, duration in minutes, price in integer rupees.
 - Stylists: ID and name.
-- Weekly schedules: stylist, weekday, working start/end, optional break start/end.
+- Stylist schedule fields: weekdays, working start/end, and break start/end. Seeded weekday/break
+  data is stored now; Level 2 will activate those checks.
 - Bookings: UUID ID, service, stylist, customer name/mobile, starts_at, ends_at, occupied_until, booked price, status, created_at.
 - Snapshot duration and price on booking so subsequent catalog changes do not alter existing appointments.
 - Store timezone-aware timestamps; interpret selected dates and working hours in Asia/Kolkata. Mobile numbers are strings so leading zeroes are preserved.

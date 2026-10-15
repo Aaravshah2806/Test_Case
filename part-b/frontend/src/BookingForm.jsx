@@ -109,7 +109,8 @@ export default function BookingForm({ services, stylists, onBooked }) {
             </label>
             <label>Mobile number<input type="tel" inputMode="numeric" autoComplete="tel-national" name="mobile"
               value={mobile} placeholder="10-digit mobile number" maxLength={10} required
-              aria-invalid={Boolean(errors.mobile)} aria-describedby="mobile-help mobile-error"
+              aria-invalid={Boolean(errors.mobile)}
+              aria-describedby={errors.mobile ? 'mobile-help mobile-error' : 'mobile-help'}
               onChange={event => setMobile(event.target.value)} />
               <span id="mobile-help" className="muted small">10 digits, without +91 or spaces.</span>
               {errors.mobile && <span id="mobile-error" className="error">{errors.mobile}</span>}

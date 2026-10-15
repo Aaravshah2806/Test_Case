@@ -27,7 +27,7 @@ def get_stylist(session, stylist_id, *, lock=False):
 
 def starts_for(session, service, stylist, day: date):
     day_start = datetime.combine(day, time.min, SALON_TZ)
-    day_end = day_start + timedelta(days=1)
+    day_end = datetime.combine(day, time.max, SALON_TZ)
     busy = session.execute(
         select(Booking.starts_at, Booking.occupied_until).where(
             Booking.stylist_id == stylist.id,

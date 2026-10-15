@@ -9,5 +9,5 @@ __pycache__/
 .env.*
 !.env.example
 *.log
-part-b/test-results/
-part-b/playwright-report/
+test-results/
+playwright-report/

@@ -8,8 +8,9 @@ from app.models import Base
 def run_migrations_offline():
     context.configure(
         url=database_url(), target_metadata=Base.metadata,
-        literal_binds=True, include_schemas=True,
+        literal_binds=True, include_schemas=True, version_table_schema="salon",
     )
+    context.execute("CREATE SCHEMA IF NOT EXISTS salon")
     with context.begin_transaction():
         context.run_migrations()
 

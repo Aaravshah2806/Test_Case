@@ -1,6 +1,19 @@
 # Part B implementation checklist
 
-All implementation tasks are pending user instruction. See plan.md for architecture and assumptions.
+Level 1 code is implemented. Unit/UI checks pass; Supabase integration verification awaits
+a working `part-b/backend/.env`. Level 2 and bonuses have not started.
+
+- [x] Backend scaffold, migrations, and idempotent catalog seeds written.
+- [x] Core availability and validation logic tested.
+- [x] Transactional PostgreSQL booking API written.
+- [x] React booking form, confirmation, loading/error/conflict handling implemented.
+- [x] JavaScript validation, Chrome UI checks, and frontend build pass.
+- [x] Supabase manual setup and startup instructions written in Part B README.
+- [ ] Supabase credentials configured and connection verified.
+- [ ] Migrations and seeds verified against real PostgreSQL.
+- [ ] Persistence, direct API validation, and simultaneous booking integration tests pass.
+- [ ] Real browser-to-Supabase booking walkthrough completed.
+- [ ] Level 1 final verification commit before any Level 2 work.
 
 | Task | Depends on | Acceptance criteria | Verification |
 |---|---|---|---|
