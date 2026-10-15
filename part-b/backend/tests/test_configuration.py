@@ -21,6 +21,7 @@ def test_standard_supabase_url_is_normalized_without_exposing_the_password(monke
 @pytest.mark.parametrize("value", [
     "", "sqlite:///salon.db",
     "postgresql://postgres.demo:pass@aws-0-test.pooler.supabase.com:5432/postgres",
+    "postgresql://postgres:pass@db.exampleproject.supabase.co:5432/postgres",
     "postgresql://postgres.PROJECT_REF:pass@POOLER_HOST:5432/postgres?sslmode=require",
 ])
 def test_rejects_missing_non_postgres_or_unencrypted_supabase_configuration(monkeypatch, value):

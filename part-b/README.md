@@ -163,7 +163,7 @@ the UI, not Supabase persistence. They cover validation, confirmation, stale-slo
 service changes, error/empty states, and widths of 320, 768, 1024, and 1440 pixels.
 Install Google Chrome if Playwright reports that the browser executable is missing.
 
-Verified during implementation: **26 Python unit/configuration tests**, **3 JavaScript tests**,
+Verified during implementation: **27 Python unit/configuration tests**, **3 JavaScript tests**,
 **8 Chrome browser tests**, backend lint, and frontend production build pass.
 The **12 PostgreSQL integration cases** await a configured Supabase project.
 

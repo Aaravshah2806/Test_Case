@@ -23,7 +23,7 @@ def database_url():
     placeholders = ["PROJECT_REF", "ENCODED_PASSWORD", "POOLER_HOST"]
     if not url.host or any(token in value for token in placeholders):
         raise RuntimeError("Replace the Supabase placeholders in backend/.env.")
-    if url.host.endswith("supabase.com") and url.query.get("sslmode") not in {
+    if url.host.endswith((".supabase.com", ".supabase.co")) and url.query.get("sslmode") not in {
         "require", "verify-ca", "verify-full"
     }:
         raise RuntimeError("Supabase DATABASE_URL must include sslmode=require or stronger.")
