@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: slotbook-api
+    runtime: node
+    plan: free
+    rootDir: part-b
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: NODE_VERSION
+        value: 24.14.0
+      - key: HOST
+        value: 0.0.0.0
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_CA_CERT
+        sync: false
+      - key: FRONTEND_ORIGINS
+        sync: false

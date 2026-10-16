@@ -1,6 +1,6 @@
 # Part B — Slotbook Salon Booking App
 
-A responsive salon booking app with a Node.js HTTP backend, real SQLite storage, and a plain JavaScript frontend. No package installation or build step is needed.
+A responsive salon booking app with a Node.js HTTP backend, local SQLite or hosted Supabase PostgreSQL storage, and a plain JavaScript frontend. Install dependencies with `npm ci`; no frontend build is needed for local development.
 
 ## Run
 
@@ -8,34 +8,35 @@ Install **Node.js 24 or later**, then open a terminal at the repository root:
 
 ```powershell
 cd part-b
+npm ci
 npm start
 ```
 
 Open **http://localhost:3000**. The database is created and seeded on first run in `data/slotbook.sqlite`. Restarting retains appointments. The four services and two stylist schedules match the assignment.
 
-**One command starts both frontend and backend.** Keep the terminal running; press `Ctrl+C` to stop the app. No separate frontend server or `npm install` step is needed.
+**One command starts both frontend and backend.** Keep the terminal running; press `Ctrl+C` to stop the app. No separate frontend server is needed. The start and admin commands load `.env` when present; leave `DATABASE_URL` unset for local SQLite.
 
-| Page | Local URL |
-| --- | --- |
-| Home | http://localhost:3000/ |
-| Customer sign-in / sign-up | http://localhost:3000/login |
-| Booking | http://localhost:3000/book |
-| Admin sign-in | http://localhost:3000/admin/login |
-| Protected dashboard | http://localhost:3000/admin |
+| Page                       | Local URL                         |
+| -------------------------- | --------------------------------- |
+| Home                       | http://localhost:3000/            |
+| Customer sign-in / sign-up | http://localhost:3000/login       |
+| Booking                    | http://localhost:3000/book        |
+| Admin sign-in              | http://localhost:3000/admin/login |
+| Protected dashboard        | http://localhost:3000/admin       |
 
 ## Seed data
 
-| Service | Duration | Price |
-| --- | --- | --- |
-| Haircut | 30 minutes | ₹400 |
-| Hair spa | 60 minutes | ₹1,200 |
-| Beard trim | 15 minutes | ₹200 |
-| Facial | 45 minutes | ₹900 |
+| Service    | Duration   | Price  |
+| ---------- | ---------- | ------ |
+| Haircut    | 30 minutes | ₹400   |
+| Hair spa   | 60 minutes | ₹1,200 |
+| Beard trim | 15 minutes | ₹200   |
+| Facial     | 45 minutes | ₹900   |
 
-| Stylist | Working days | Working hours | Break | Weekly day off |
-| --- | --- | --- | --- | --- |
-| Meera | Monday–Saturday | 10:00–19:00 | 13:00–14:00 | Sunday |
-| Karan | Tuesday–Sunday | 11:00–20:00 | 15:00–15:30 | Monday |
+| Stylist | Working days    | Working hours | Break       | Weekly day off |
+| ------- | --------------- | ------------- | ----------- | -------------- |
+| Meera   | Monday–Saturday | 10:00–19:00   | 13:00–14:00 | Sunday         |
+| Karan   | Tuesday–Sunday  | 11:00–20:00   | 15:00–15:30 | Monday         |
 
 Weekly days off and daily breaks block availability. Custom holiday dates and individual leave management are not implemented.
 
@@ -49,7 +50,7 @@ Guests can browse the home page. Opening `/book` redirects them to sign-in, pres
 
 The appointment form defaults to **Use my account number**. Choose **Use another number** to reveal a required 10-digit contact number field. This number is saved only on that appointment; it does not change the account phone. Confirmation shows the chosen contact number, and rescheduling preserves it. New bookings are linked to the signed-in customer. Another customer cannot open or move them even if they obtain a management link. Pre-account bookings remain accessible with their original private link after sign-in.
 
-Passwords use salted asynchronous scrypt (`N=32768, r=8, p=3`); plaintext passwords are never stored. Sessions use random 256-bit tokens in HttpOnly, SameSite=Lax cookies, with only token hashes saved in SQLite and a seven-day expiry. Sign-out revokes the session in the database. Authentication attempts are limited to ten per fifteen minutes per client address, with shared counters in SQLite. These choices use [Node.js crypto](https://nodejs.org/docs/latest-v24.x/api/crypto.html) and [OWASP password storage guidance](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
+Passwords use salted asynchronous scrypt (`N=32768, r=8, p=3`); plaintext passwords are never stored. Sessions use random 256-bit tokens in HttpOnly, SameSite=Lax cookies, with only token hashes saved in the selected database and a seven-day expiry. Sign-out revokes the session in the database. Authentication attempts are limited to ten per fifteen minutes per client address locally. With configured frontend proxy origins, valid phone numbers are limited independently so a shared proxy address does not lock every customer out. These choices use [Node.js crypto](https://nodejs.org/docs/latest-v24.x/api/crypto.html) and [OWASP password storage guidance](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
 
 This flow uses **phone number + password**, not SMS verification. No SMS service is configured, so it does not verify ownership of the phone number. Password recovery is not implemented. Public hosting must use HTTPS and set `COOKIE_SECURE=1` so session cookies are Secure; plain HTTP is supported only for local development.
 
@@ -63,11 +64,11 @@ cd part-b
 npm run admin:create
 ```
 
-Enter the admin's name, 10-digit phone number, password and password confirmation. Password entry is hidden. The command prints the newly assigned **special login ID**, such as `SB-ADM-XXXXXXXXXXXX`. Give that login ID to the admin. Repeat the command for each additional admin; login IDs and phone numbers are unique. There is no default admin password or public admin signup. The setup command uses the same SQLite file as the server (`DB_PATH`, if supplied).
+Enter the admin's name, 10-digit phone number, password and password confirmation. Password entry is hidden. The command prints the newly assigned **special login ID**, such as `SB-ADM-XXXXXXXXXXXX`. Give that login ID to the admin. Repeat the command for each additional admin; login IDs and phone numbers are unique. There is no default admin password or public admin signup. The setup command uses the same database as the server: Supabase when `DATABASE_URL` is set, otherwise local SQLite (`DB_PATH`, if supplied).
 
 Open **http://localhost:3000/admin/login**, or choose **Salon admin? Sign in here** on the customer login page. The admin must supply their assigned login ID, phone number and password together. A successful sign-in goes directly to `/admin`, with dashboard-only navigation, bookings grouped by stylist, daily revenue and cancellation controls.
 
-Admin sessions use a separate HttpOnly cookie and a separate SQLite session table, and expire after eight hours. Every dashboard page and admin API request checks that session on the backend. Guests are redirected to admin sign-in; customer sessions receive 403 for admin APIs and cannot see the dashboard. Customer signup cannot assign an admin role. Signing into either role revokes the previous role's session. Admin sign-out revokes dashboard access. The previous shared access-key flow is removed.
+Admin sessions use a separate HttpOnly cookie and a separate database session table, and expire after eight hours. Every dashboard page and admin API request checks that session on the backend. Guests are redirected to admin sign-in; customer sessions receive 403 for admin APIs and cannot see the dashboard. Customer signup cannot assign an admin role. Signing into either role revokes the previous role's session. Admin sign-out revokes dashboard access. The previous shared access-key flow is removed.
 
 For non-interactive owner provisioning, the command accepts `SLOTBOOK_ADMIN_NAME`, `SLOTBOOK_ADMIN_PHONE` and `SLOTBOOK_ADMIN_PASSWORD` from environment variables. Do not put passwords in command arguments, source files or version control.
 
@@ -80,7 +81,7 @@ npm test
 npm run check
 ```
 
-The automated suite contains **77 tests**. Tests use isolated databases and do not change saved appointments. See [TESTING.md](TESTING.md) for coverage and browser verification.
+The local automated suite contains **83 tests**, with **9 additional PostgreSQL checks** in the separate integration suite. Tests use isolated databases and do not change saved appointments. See [TESTING.md](TESTING.md) for coverage and browser verification.
 
 ## Assignment coverage
 
@@ -104,6 +105,8 @@ Names accept 2–80 characters, starting with a Unicode letter, with letters, co
 The entire booking operation uses **SQLite `BEGIN IMMEDIATE`**: acquire the database write lock, read existing confirmed appointments, recompute availability including buffers, assign a stylist, insert, then commit. A competing process/connection must wait for the lock and then sees the first booking; it receives HTTP **409 Conflict**. A 5-second busy timeout bounds lock waiting. This covers overlaps with different start times, not merely identical start times. Rescheduling does the same check/update in one transaction while excluding its own ID; a failed move rolls back and preserves the original appointment.
 
 The race test releases two worker threads with independent database connections at the same instant and asserts that exactly one succeeds. HTTP tests also issue concurrent requests. SQLite WAL mode allows reads during writes. Use a single persistent local SQLite volume; do not deploy separate database copies to multiple instances.
+
+On Supabase PostgreSQL, each booking/reschedule/cancellation transaction acquires `pg_advisory_xact_lock(734261, 1)` before reading or changing availability. The next competing transaction reads the updated state after the first commits. Tests exercise simultaneous bookings through independent connection pools and verify exactly one succeeds. All queries within a transaction use the same checked-out PostgreSQL connection.
 
 ## Rescheduling
 
@@ -137,13 +140,17 @@ See [walkthrough notes](walkthrough/README.md) and [the MP4 recording](walkthrou
 
 ## Configuration
 
-| Environment variable | Default | Purpose |
-| --- | --- | --- |
-| `PORT` | `3000` | HTTP port |
-| `HOST` | `127.0.0.1` | Listening address; use `0.0.0.0` for container hosting |
-| `DB_PATH` | Project's `data/slotbook.sqlite` | SQLite location; use the same setting when provisioning admins |
-| `COOKIE_SECURE` | Unset | Set to `1` for HTTPS hosting |
-| `CORE_MODE` | Unset | Set to `1` only for Level 1 availability mode; leave unset for the complete app |
+| Environment variable | Default                          | Purpose                                                                         |
+| -------------------- | -------------------------------- | ------------------------------------------------------------------------------- |
+| `PORT`               | `3000`                           | HTTP port                                                                       |
+| `HOST`               | `127.0.0.1`                      | Listening address; use `0.0.0.0` for container hosting                          |
+| `DB_PATH`            | Project's `data/slotbook.sqlite` | SQLite location; use the same setting when provisioning admins                  |
+| `COOKIE_SECURE`      | Unset                            | Set to `1` for HTTPS hosting                                                    |
+| `CORE_MODE`          | Unset                            | Set to `1` only for Level 1 availability mode; leave unset for the complete app |
+| `DATABASE_URL`       | Unset                            | Supabase PostgreSQL connection string; required on Render                       |
+| `DATABASE_CA_CERT`   | Unset                            | CA certificate for verified database TLS when required                          |
+| `FRONTEND_ORIGINS`   | Unset                            | Exact comma-separated frontend origins allowed for proxied POST requests        |
+| `RENDER_BACKEND_URL` | Unset                            | Backend HTTPS origin used only by the Vercel build                              |
 
 To use another port in PowerShell:
 
@@ -176,7 +183,9 @@ For rescheduling availability, add `exclude=<booking ID>` and authenticate with 
 
 ## Deployment
 
-Use a Docker host with a persistent volume mounted at `/app/data`, one running instance, Node 24, and HTTPS. Set `HOST=0.0.0.0`, your hosting `PORT`, `COOKIE_SECURE=1`, and optionally `DB_PATH`. Provision admins against that same persistent database with the owner command. The app has no third-party runtime dependencies. A local Docker example is:
+For **Vercel + Render + Supabase**, follow [DEPLOYMENT.md](DEPLOYMENT.md). Render uses Supabase PostgreSQL for durable accounts and bookings and refuses to start with ephemeral SQLite. The owner CLI can connect to that same hosted database from your computer.
+
+For an alternative Docker deployment using SQLite, mount a persistent volume at `/app/data`, use one running instance, Node 24 and HTTPS. Set `HOST=0.0.0.0`, `COOKIE_SECURE=1`, and optionally `DB_PATH`. The PostgreSQL driver is installed during the Docker build. A local Docker example is:
 
 ```sh
 docker build -t slotbook .
@@ -191,3 +200,7 @@ Set `COOKIE_SECURE=1` when hosting behind HTTPS. Keep the SQLite file backed up;
 The included `.gitignore` excludes `data/`, `node_modules/`, `.env` and logs. Do not commit real databases, customer details or credentials. There are no default admin credentials: reviewers can create an admin locally with `npm run admin:create`.
 
 [Back to repository README](../README.md)
+
+## Deployment workflows
+
+GitHub Actions runs CI on pushes and pull requests, including real PostgreSQL integration tests. Render can deploy after CI checks pass; Vercel deploys through its Git integration. A separate optional ten-minute health workflow can reduce Render idle sleeps, but cannot guarantee continuous availability. See [DEPLOYMENT.md](DEPLOYMENT.md) for the repository variables and free-plan limits.

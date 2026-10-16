@@ -1,0 +1,28 @@
+name: Render health check (optional)
+on:
+  schedule:
+    - cron: "3,13,23,33,43,53 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: render-health
+  cancel-in-progress: false
+jobs:
+  health:
+    if: vars.RENDER_KEEPALIVE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    env:
+      RENDER_BACKEND_URL: ${{ vars.RENDER_BACKEND_URL }}
+    steps:
+      - name: Check backend and database
+        shell: bash
+        run: |
+          if [[ ! "$RENDER_BACKEND_URL" =~ ^https://[a-zA-Z0-9-]+\.onrender\.com/?$ ]]; then
+            echo "Set RENDER_BACKEND_URL to your HTTPS onrender.com origin in repository variables."
+            exit 1
+          fi
+          curl --fail --silent --show-error --connect-timeout 15 --max-time 100 \
+            --retry 1 --retry-delay 10 --retry-max-time 210 \
+            "${RENDER_BACKEND_URL%/}/api/health"

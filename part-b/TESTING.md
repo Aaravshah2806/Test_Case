@@ -1,6 +1,16 @@
 # Slotbook verification — 16 October 2026
 
-The complete automated suite passes **77 tests** with no skipped tests. The original 54 booking and rescheduling checks are retained, with authenticated sessions added to API fixtures. `npm run check` checks the syntax of all application JavaScript modules.
+The local automated suite passes **83 tests** with no skipped tests. The separate PostgreSQL integration suite passes **9 checks** (one parent test and eight flow tests) against PostgreSQL 17. The original 54 booking and rescheduling checks are retained, with authenticated sessions added to API fixtures. `npm run check` checks the syntax of all application JavaScript modules.
+
+## Supabase deployment update
+
+Verified against a real, isolated PostgreSQL 17 Docker database: schema/seed initialization; account/session and booking persistence after reconnect; duplicate and concurrent signup; password login; breaks, days off and cleanup; competing bookings through independent connection pools; Any stylist; atomic rescheduling and rollback; competing reschedules; revenue and cancellation; customer/admin HTTP login and logout; alternate phone storage; ownership and admin access controls; atomic rate-limit increments.
+
+Deployment tests also verify exact allowed origins, lookalike-origin rejection, Secure cookies, separate phone throttles behind proxies, database health failures, TLS configuration, and refusal to use ephemeral SQLite on Render. Vercel output builds successfully and copies only frontend assets. The production dependency audit reported zero vulnerabilities.
+
+The actual Supabase, Render and Vercel accounts have not been connected or deployed in this workspace. Hosted TLS, platform routing and the live browser flows still need the deployment checks in [DEPLOYMENT.md](DEPLOYMENT.md).
+
+Run `npm run test:postgres` with `TEST_DATABASE_URL` pointing to a disposable database whose name ends in `_test`; these tests truncate their tables. Never use a real hosted database for this suite. CI creates its own database automatically.
 
 ## Run again
 

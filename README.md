@@ -2,10 +2,10 @@
 
 Python problem-solving exercises in **Part A** and **Slotbook**, a salon booking web app, in **Part B**.
 
-| Part | Contents | Requirements | Documentation |
-| --- | --- | --- | --- |
-| A | Pagination, duplicate leads, expense settlement | Python 3 | [Part A README](part-a/README.md) |
-| B | Booking, customer accounts, rescheduling, admin dashboard | Node.js 24 or newer | [Part B README](part-b/README.md) |
+| Part | Contents                                                  | Requirements        | Documentation                     |
+| ---- | --------------------------------------------------------- | ------------------- | --------------------------------- |
+| A    | Pagination, duplicate leads, expense settlement           | Python 3            | [Part A README](part-a/README.md) |
+| B    | Booking, customer accounts, rescheduling, admin dashboard | Node.js 24 or newer | [Part B README](part-b/README.md) |
 
 ## Run Part A
 
@@ -25,10 +25,11 @@ From the repository root:
 
 ```sh
 cd part-b
+npm ci
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000). One process serves the frontend and backend. No package installation or build step is needed. SQLite is created and seeded on first run.
+Open [http://localhost:3000](http://localhost:3000). One process serves the frontend and backend. `npm ci` installs the locked PostgreSQL driver; no frontend build is needed locally. SQLite is created and seeded on first run unless `DATABASE_URL` is set.
 
 Open another terminal in `part-b` to create an admin:
 
@@ -42,7 +43,7 @@ Save the generated login ID, then use [admin login](http://localhost:3000/admin/
 
 Part A's bundled examples were executed; their outputs are documented in its README. Part A has no separate automated test suite.
 
-Part B includes 77 automated tests. From `part-b`, run:
+Part B includes 83 local SQLite/HTTP/deployment tests and a separate PostgreSQL integration suite. From `part-b`, run:
 
 ```sh
 npm test
@@ -68,3 +69,6 @@ part-b/
 
 Commit source code, documentation and test files. Part B's `.gitignore` excludes its local database, environment file, logs and `node_modules`. Keep real customer data and passwords out of the repository. A Dockerfile is included; no live deployment URL has been provisioned.
 
+## Cloud deployment
+
+Use Vercel for the frontend, Render for the backend and Supabase PostgreSQL for durable storage. Follow the [deployment guide](part-b/DEPLOYMENT.md), including the optional scheduled health workflow and free-plan limits.

@@ -1,8 +1,9 @@
 import { createServer } from "node:http";
-import { readFileSync, mkdirSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { resolve, dirname } from "node:path";
-import { createStore, AppError } from "./store.js";
+import { resolve } from "node:path";
+import { AppError } from "./errors.js";
+import { runtimeStore } from "./runtime-store.js";
 import { indiaNow } from "./availability.js";
 import { SESSION_SECONDS } from "./auth.js";
 import { ADMIN_SESSION_SECONDS } from "./admin-auth.js";
@@ -10,8 +11,25 @@ import { ADMIN_SESSION_SECONDS } from "./admin-auth.js";
 const root = fileURLToPath(new URL("../", import.meta.url));
 export function appServer(
   store,
-  { secureCookies = process.env.COOKIE_SECURE === "1" } = {},
+  {
+    secureCookies = process.env.COOKIE_SECURE === "1",
+    frontendOrigins = process.env.FRONTEND_ORIGINS || "",
+  } = {},
 ) {
+  const allowedOrigins = new Set(
+    frontendOrigins
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean)
+      .map((value) => {
+        const url = new URL(value);
+        if (url.origin !== value || !["http:", "https:"].includes(url.protocol))
+          throw new Error(
+            "FRONTEND_ORIGINS must contain exact origins without paths or trailing slashes.",
+          );
+        return url.origin;
+      }),
+  );
   return createServer(async (req, res) => {
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("Referrer-Policy", "same-origin");
@@ -28,6 +46,14 @@ export function appServer(
     };
     try {
       const url = new URL(req.url, "http://localhost");
+      if (req.method === "GET" && url.pathname === "/api/health") {
+        try {
+          await store.health?.();
+          return send(200, { status: "ok" });
+        } catch {
+          return send(503, { error: "Database unavailable." });
+        }
+      }
       const sessionToken =
         String(req.headers.cookie || "")
           .split(";")
@@ -40,8 +66,10 @@ export function appServer(
           .map((c) => c.trim())
           .find((c) => c.startsWith("slotbook_admin="))
           ?.slice("slotbook_admin=".length) || "";
-      const administrator = store.adminAuth.session(adminToken);
-      const customer = administrator ? null : store.auth.session(sessionToken);
+      const administrator = await store.adminAuth.session(adminToken);
+      const customer = administrator
+        ? null
+        : await store.auth.session(sessionToken);
       const requireCustomer = () => {
         if (administrator)
           throw new AppError(
@@ -52,9 +80,9 @@ export function appServer(
           throw new AppError("Please sign in to book an appointment.", 401);
         return customer;
       };
-      const manage = (id, token) => {
+      const manage = async (id, token) => {
         requireCustomer();
-        const booking = store.managed(id, token);
+        const booking = await store.managed(id, token);
         if (booking.customer_id !== null && booking.customer_id !== customer.id)
           throw new AppError(
             "This appointment belongs to another account.",
@@ -76,6 +104,7 @@ export function appServer(
       if (
         req.method === "POST" &&
         req.headers.origin &&
+        !allowedOrigins.has(req.headers.origin) &&
         ![`http://${req.headers.host}`, `https://${req.headers.host}`].includes(
           req.headers.origin,
         )
@@ -106,11 +135,17 @@ export function appServer(
       if (req.method === "GET" && url.pathname === "/api/auth/session")
         return send(200, { customer, admin: administrator });
       if (req.method === "POST" && url.pathname === "/api/admin/auth/login") {
-        store.auth.rateLimit(`admin:${req.socket.remoteAddress}`);
         const input = await readInput(),
-          result = await store.adminAuth.login(input);
-        store.adminAuth.logout(adminToken);
-        store.auth.logout(sessionToken);
+          limitKey =
+            allowedOrigins.size &&
+            typeof input.mobile === "string" &&
+            /^\d{10}$/.test(input.mobile)
+              ? `admin-phone:${input.mobile}`
+              : `admin:${req.socket.remoteAddress}`;
+        await store.auth.rateLimit(limitKey);
+        const result = await store.adminAuth.login(input);
+        await store.adminAuth.logout(adminToken);
+        await store.auth.logout(sessionToken);
         cookie(result.token, ADMIN_SESSION_SECONDS, "slotbook_admin");
         cookie("", 0);
         return send(200, { admin: result.admin });
@@ -118,7 +153,7 @@ export function appServer(
       if (req.method === "GET" && url.pathname === "/api/admin/auth/session")
         return send(200, { admin: administrator });
       if (req.method === "POST" && url.pathname === "/api/admin/auth/logout") {
-        store.adminAuth.logout(adminToken);
+        await store.adminAuth.logout(adminToken);
         cookie("", 0, "slotbook_admin");
         return send(200, { admin: null });
       }
@@ -126,14 +161,22 @@ export function appServer(
         req.method === "POST" &&
         ["/api/auth/signup", "/api/auth/login"].includes(url.pathname)
       ) {
-        store.auth.rateLimit(req.socket.remoteAddress);
         const input = await readInput();
+        // Reverse proxies share socket addresses. Limit valid phone identities so
+        // one customer's failed login does not lock every customer out.
+        const limitKey =
+          allowedOrigins.size &&
+          typeof input.mobile === "string" &&
+          /^\d{10}$/.test(input.mobile)
+            ? `customer-phone:${input.mobile}`
+            : req.socket.remoteAddress;
+        await store.auth.rateLimit(limitKey);
         const result =
           await store.auth[
             url.pathname.endsWith("/signup") ? "signup" : "login"
           ](input);
-        if (sessionToken) store.auth.logout(sessionToken);
-        store.adminAuth.logout(adminToken);
+        if (sessionToken) await store.auth.logout(sessionToken);
+        await store.adminAuth.logout(adminToken);
         cookie(result.token);
         cookie("", 0, "slotbook_admin");
         return send(url.pathname.endsWith("/signup") ? 201 : 200, {
@@ -141,7 +184,7 @@ export function appServer(
         });
       }
       if (req.method === "POST" && url.pathname === "/api/auth/logout") {
-        store.auth.logout(sessionToken);
+        await store.auth.logout(sessionToken);
         cookie("", 0);
         return send(200, { customer: null });
       }
@@ -180,29 +223,29 @@ export function appServer(
       if (url.pathname.startsWith("/api/admin/")) {
         admin();
         if (req.method === "GET" && url.pathname === "/api/admin/bookings")
-          return send(200, store.day(url.searchParams.get("date")));
+          return send(200, await store.day(url.searchParams.get("date")));
         const match = url.pathname.match(
           /^\/api\/admin\/bookings\/([a-f0-9-]+)\/cancel$/,
         );
         if (req.method === "POST" && match)
-          return send(200, store.cancel(match[1]));
+          return send(200, await store.cancel(match[1]));
       }
       if (req.method === "GET" && url.pathname === "/api/catalog")
         return send(200, {
-          services: store.services(),
-          stylists: store.stylists(),
+          services: await store.services(),
+          stylists: await store.stylists(),
           today: indiaNow(store.clock()).date,
         });
       if (req.method === "GET" && url.pathname === "/api/availability") {
         requireCustomer();
         const exclude = url.searchParams.get("exclude") || "";
         if (exclude)
-          manage(
+          await manage(
             exclude,
             String(req.headers.authorization || "").replace(/^Bearer /, ""),
           );
         return send(200, {
-          times: store.availability(
+          times: await store.availability(
             Object.fromEntries(url.searchParams),
             exclude,
           ),
@@ -214,7 +257,7 @@ export function appServer(
       if (req.method === "GET" && managedMatch && !managedMatch[2])
         return send(
           200,
-          manage(
+          await manage(
             managedMatch[1],
             String(req.headers.authorization || "").replace(/^Bearer /, ""),
           ),
@@ -226,10 +269,10 @@ export function appServer(
         requireCustomer();
         const input = await readInput();
         if (managedMatch?.[2]) {
-          manage(managedMatch[1], input.token);
+          await manage(managedMatch[1], input.token);
           return send(
             200,
-            store.reschedule(managedMatch[1], input, input.token),
+            await store.reschedule(managedMatch[1], input, input.token),
           );
         }
         if (
@@ -241,7 +284,7 @@ export function appServer(
           );
         const mobile =
           input.useAccountNumber === false ? input.mobile : customer.mobile;
-        return send(201, store.book({ ...input, mobile }, customer.id));
+        return send(201, await store.book({ ...input, mobile }, customer.id));
       }
       const files = {
         "/": "index.html",
@@ -271,7 +314,8 @@ export function appServer(
       }
       send(404, { error: "Not found." });
     } catch (error) {
-      if (!error.status) console.error(error);
+      if (!error.status)
+        console.error("Request failed.", { code: error.code || "unknown" });
       send(error.status || 500, {
         error: error.status
           ? error.message
@@ -284,18 +328,21 @@ if (
   process.argv[1] &&
   resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 ) {
-  const database =
-    process.env.DB_PATH || resolve(root, "data", "slotbook.sqlite");
-  mkdirSync(dirname(database), { recursive: true });
-  const store = createStore(database, { core: process.env.CORE_MODE === "1" });
+  const store = await runtimeStore();
   const server = appServer(store);
-  if (!store.db.prepare("SELECT id FROM admins LIMIT 1").get())
-    console.log(
-      "No admin accounts yet. Run npm run admin:create to assign the first admin login ID.",
-    );
+  console.log(
+    "Create admins with npm run admin:create using the same DATABASE_URL (or local SQLite file).",
+  );
   server.listen(
     Number(process.env.PORT || 3000),
     process.env.HOST || "127.0.0.1",
     () => console.log(`Slotbook: http://localhost:${process.env.PORT || 3000}`),
   );
+  const shutdown = () =>
+    server.close(async () => {
+      await store.close();
+      process.exit(0);
+    });
+  process.once("SIGTERM", shutdown);
+  process.once("SIGINT", shutdown);
 }
