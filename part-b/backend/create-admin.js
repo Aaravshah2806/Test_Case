@@ -1,9 +1,6 @@
 import { createInterface } from "node:readline/promises";
 import { Writable } from "node:stream";
-import { mkdirSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-import { createStore } from "./store.js";
+import { runtimeStore } from "./runtime-store.js";
 
 let hidden = false,
   closing = false,
@@ -61,14 +58,10 @@ try {
     if (password !== (await secret("Confirm password (hidden): ")))
       throw new Error("Passwords do not match. No admin account was created.");
   }
-  const root = fileURLToPath(new URL("../", import.meta.url));
-  const database =
-    process.env.DB_PATH || resolve(root, "data", "slotbook.sqlite");
-  mkdirSync(dirname(database), { recursive: true });
-  store = createStore(database);
+  store = await runtimeStore();
   const admin = await store.adminAuth.create({ name, mobile, password });
   console.log(
-    `Admin account created.\nAssigned login ID: ${admin.loginId}\nSign in at http://localhost:${process.env.PORT || 3000}/admin/login\nGive the login ID to this admin. The password is not printed.`,
+    `Admin account created.\nAssigned login ID: ${admin.loginId}\nSign in at ${(process.env.FRONTEND_ORIGINS || `http://localhost:${process.env.PORT || 3000}`).split(",")[0].trim()}/admin/login\nGive the login ID to this admin. The password is not printed.`,
   );
 } catch (error) {
   console.error(error.message);
@@ -76,7 +69,7 @@ try {
 } finally {
   closing = true;
   rl?.close();
-  store?.db.close();
+  await store?.close();
   if (rl) {
     process.stdin.pause();
     await new Promise((resolve) => process.stdout.write("", resolve));

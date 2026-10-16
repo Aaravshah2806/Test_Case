@@ -32,7 +32,14 @@ async function api(path, options = {}) {
     ...options,
     headers: { "Content-Type": "application/json", ...options.headers },
   });
-  const data = await response.json();
+  let data;
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error(
+      "The salon server is starting or temporarily unavailable. Please try again in a minute.",
+    );
+  }
   if (!response.ok) {
     const error = new Error(data.error || "Please try again.");
     error.status = response.status;
@@ -342,7 +349,12 @@ async function start() {
       location.replace(loginUrl());
       return;
     }
-    app.innerHTML = `<p role="alert">${escape(error.message)}</p><a href="/book">Return to booking</a>`;
+    app.innerHTML = `<p role="alert">${escape(error.message)}</p><button id="retry-start" type="button">Try again</button>`;
+    document.querySelector("#retry-start").onclick = () => {
+      app.innerHTML =
+        '<p role="status">Connecting to the salon… Free hosting may take about a minute to wake up.</p>';
+      start();
+    };
   }
 }
 start();

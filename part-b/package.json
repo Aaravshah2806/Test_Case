@@ -3,14 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Salon appointment booking with SQLite persistence",
+  "description": "Salon booking with local SQLite and hosted PostgreSQL",
   "engines": {
     "node": ">=24.0.0"
   },
   "scripts": {
-    "start": "node backend/server.js",
-    "admin:create": "node backend/create-admin.js",
+    "start": "node --env-file-if-exists=.env backend/server.js",
+    "admin:create": "node --env-file-if-exists=.env backend/create-admin.js",
     "test": "node --test backend/*.test.js",
-    "check": "node --check backend/server.js && node --check backend/store.js && node --check backend/availability.js && node --check backend/auth.js && node --check backend/admin-auth.js && node --check backend/create-admin.js && node --check backend/errors.js && node --check frontend/app.js && node --check frontend/home.js && node --check frontend/auth-ui.js && node --check frontend/admin-ui.js"
+    "check": "node --check backend/server.js && node --check backend/store.js && node --check backend/availability.js && node --check backend/auth.js && node --check backend/admin-auth.js && node --check backend/create-admin.js && node --check backend/errors.js && node --check frontend/app.js && node --check frontend/home.js && node --check frontend/auth-ui.js && node --check frontend/admin-ui.js && node --check backend/postgres-store.js && node --check backend/runtime-store.js && node --check scripts/build-vercel.js",
+    "build:vercel": "node scripts/build-vercel.js",
+    "test:postgres": "node --test test-postgres/*.test.js"
+  },
+  "dependencies": {
+    "pg": "^8.23.1"
   }
 }
