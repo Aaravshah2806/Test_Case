@@ -1,0 +1,1 @@
+Signing out ends the admin session and returns to admin sign-in.

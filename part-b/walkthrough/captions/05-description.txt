@@ -1,0 +1,1 @@
+Successful signup returns to the booking page with the customer name and account phone prefilled.

@@ -1,0 +1,1 @@
+Past dates are blocked. The server also rejects times that have already passed today.

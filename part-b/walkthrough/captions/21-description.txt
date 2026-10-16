@@ -1,0 +1,1 @@
+Each admin uses an owner-assigned special login ID together with their phone number and password.

@@ -1,0 +1,147 @@
+[
+  {
+    "start": 0,
+    "end": 5,
+    "title": "01  |  WELCOME TO SLOTBOOK"
+  },
+  {
+    "start": 5,
+    "end": 10,
+    "title": "02  |  SERVICES & STYLISTS"
+  },
+  {
+    "start": 10,
+    "end": 15,
+    "title": "03  |  SIGN IN BEFORE BOOKING"
+  },
+  {
+    "start": 15,
+    "end": 20,
+    "title": "04  |  CREATE A CUSTOMER ACCOUNT"
+  },
+  {
+    "start": 20,
+    "end": 26,
+    "title": "05  |  ACCOUNT CREATED"
+  },
+  {
+    "start": 26,
+    "end": 33,
+    "title": "06  |  NO DUPLICATE PHONE ACCOUNTS"
+  },
+  {
+    "start": 33,
+    "end": 39,
+    "title": "07  |  CUSTOMER SIGN IN"
+  },
+  {
+    "start": 39,
+    "end": 45,
+    "title": "08  |  SELECT YOUR TREATMENT"
+  },
+  {
+    "start": 45,
+    "end": 51,
+    "title": "09  |  WEEKLY DAYS OFF"
+  },
+  {
+    "start": 51,
+    "end": 57,
+    "title": "10  |  NO PAST-DATE BOOKINGS"
+  },
+  {
+    "start": 57,
+    "end": 64,
+    "title": "11  |  LIVE AVAILABILITY"
+  },
+  {
+    "start": 64,
+    "end": 70,
+    "title": "12  |  CUSTOMER DETAILS ARE VALIDATED"
+  },
+  {
+    "start": 70,
+    "end": 77,
+    "title": "13  |  ACCOUNT PHONE OR ANOTHER NUMBER"
+  },
+  {
+    "start": 77,
+    "end": 84,
+    "title": "14  |  BOOKING CONFIRMED"
+  },
+  {
+    "start": 84,
+    "end": 90,
+    "title": "15  |  SAVED IN SQLITE"
+  },
+  {
+    "start": 90,
+    "end": 96,
+    "title": "16  |  RESCHEDULE WITHOUT CANCELLING"
+  },
+  {
+    "start": 96,
+    "end": 103,
+    "title": "17  |  SAME BOOKING ID, UPDATED APPOINTMENT"
+  },
+  {
+    "start": 103,
+    "end": 110,
+    "title": "18  |  NO OVERLAPPING APPOINTMENTS"
+  },
+  {
+    "start": 110,
+    "end": 116,
+    "title": "19  |  ANY STYLIST"
+  },
+  {
+    "start": 116,
+    "end": 122,
+    "title": "20  |  CUSTOMERS CANNOT OPEN THE ADMIN DASHBOARD"
+  },
+  {
+    "start": 122,
+    "end": 129,
+    "title": "21  |  ADMIN ID + PHONE + PASSWORD"
+  },
+  {
+    "start": 129,
+    "end": 135,
+    "title": "22  |  A PRIVATE ADMIN DASHBOARD"
+  },
+  {
+    "start": 135,
+    "end": 142,
+    "title": "23  |  DAILY BOOKINGS & REVENUE"
+  },
+  {
+    "start": 142,
+    "end": 149,
+    "title": "24  |  ADMIN CANCELLATION"
+  },
+  {
+    "start": 149,
+    "end": 155,
+    "title": "25  |  SIGN-OUT REVOKES ADMIN ACCESS"
+  },
+  {
+    "start": 155,
+    "end": 161,
+    "title": "26  |  RETURN AS A CUSTOMER"
+  },
+  {
+    "start": 161,
+    "end": 168,
+    "title": "27  |  CANCELLED TIMES ARE AVAILABLE AGAIN"
+  },
+  {
+    "start": 168,
+    "end": 174,
+    "title": "28  |  RESPONSIVE ON MOBILE"
+  },
+  {
+    "start": 174,
+    "end": 180,
+    "title": "29  |  SLOTBOOK: ALL FEATURES, ONE APP"
+  }
+]

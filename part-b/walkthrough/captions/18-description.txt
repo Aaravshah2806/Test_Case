@@ -1,0 +1,1 @@
+Booked slots, breaks and the 10-minute cleanup buffer are excluded from new bookings.

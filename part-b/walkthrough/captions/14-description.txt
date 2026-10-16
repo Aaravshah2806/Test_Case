@@ -1,0 +1,1 @@
+The confirmation shows the booking ID, service, stylist, time, price and chosen contact number.

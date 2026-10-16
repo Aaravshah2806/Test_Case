@@ -1,0 +1,1 @@
+A customer visiting the admin area is sent to the separate admin sign-in page.

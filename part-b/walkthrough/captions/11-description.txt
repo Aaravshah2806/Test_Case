@@ -1,0 +1,1 @@
+Start times use 15-minute steps and account for full service duration, breaks and existing bookings.

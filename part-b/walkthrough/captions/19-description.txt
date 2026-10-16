@@ -1,0 +1,1 @@
+Combined availability finds an eligible stylist automatically, including during another stylist’s break.

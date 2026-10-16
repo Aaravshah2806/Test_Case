@@ -1,0 +1,1 @@
+Cancel an appointment: the booking count and confirmed revenue update immediately.

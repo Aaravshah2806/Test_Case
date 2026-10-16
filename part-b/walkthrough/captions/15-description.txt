@@ -1,0 +1,1 @@
+Refresh the private confirmation link: the saved appointment and contact number remain available.

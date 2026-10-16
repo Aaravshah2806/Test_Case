@@ -1,0 +1,1 @@
+The phone number and password are checked before the customer can book.

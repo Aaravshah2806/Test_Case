@@ -1,0 +1,144 @@
+1
+00:00:00,000 --> 00:00:05,000
+01  |  WELCOME TO SLOTBOOK
+A salon booking walkthrough with demo accounts. Passwords stay masked throughout.
+
+2
+00:00:05,000 --> 00:00:10,000
+02  |  SERVICES & STYLISTS
+Four treatments with transparent prices. Meet Meera and Karan and see their schedules.
+
+3
+00:00:10,000 --> 00:00:15,000
+03  |  SIGN IN BEFORE BOOKING
+Guests are redirected to login. Their selected treatment is remembered.
+
+4
+00:00:15,000 --> 00:00:20,000
+04  |  CREATE A CUSTOMER ACCOUNT
+Sign up with a name, a 10-digit phone number and a password.
+
+5
+00:00:20,000 --> 00:00:26,000
+05  |  ACCOUNT CREATED
+Successful signup returns to the booking page with the customer name and account phone prefilled.
+
+6
+00:00:26,000 --> 00:00:33,000
+06  |  NO DUPLICATE PHONE ACCOUNTS
+An existing phone number cannot create a second account.
+
+7
+00:00:33,000 --> 00:00:39,000
+07  |  CUSTOMER SIGN IN
+The phone number and password are checked before the customer can book.
+
+8
+00:00:39,000 --> 00:00:45,000
+08  |  SELECT YOUR TREATMENT
+Service duration and price update immediately as you choose Haircut, Hair spa, Beard trim or Facial.
+
+9
+00:00:45,000 --> 00:00:51,000
+09  |  WEEKLY DAYS OFF
+Meera is off on Sundays. The app shows no available slots on her day off.
+
+10
+00:00:51,000 --> 00:00:57,000
+10  |  NO PAST-DATE BOOKINGS
+Past dates are blocked. The server also rejects times that have already passed today.
+
+11
+00:00:57,000 --> 00:01:04,000
+11  |  LIVE AVAILABILITY
+Start times use 15-minute steps and account for full service duration, breaks and existing bookings.
+
+12
+00:01:04,000 --> 00:01:10,000
+12  |  CUSTOMER DETAILS ARE VALIDATED
+Invalid names are rejected before an appointment is saved.
+
+13
+00:01:10,000 --> 00:01:17,000
+13  |  ACCOUNT PHONE OR ANOTHER NUMBER
+Choose the account number, or enter another contact number. Exactly 10 digits are required.
+
+14
+00:01:17,000 --> 00:01:24,000
+14  |  BOOKING CONFIRMED
+The confirmation shows the booking ID, service, stylist, time, price and chosen contact number.
+
+15
+00:01:24,000 --> 00:01:30,000
+15  |  SAVED IN SQLITE
+Refresh the private confirmation link: the saved appointment and contact number remain available.
+
+16
+00:01:30,000 --> 00:01:36,000
+16  |  RESCHEDULE WITHOUT CANCELLING
+Open the saved appointment to choose a new treatment, stylist, date or time.
+
+17
+00:01:36,000 --> 00:01:43,000
+17  |  SAME BOOKING ID, UPDATED APPOINTMENT
+The booking is now a 14:00 Facial for 900 rupees. Its ID and contact number are unchanged.
+
+18
+00:01:43,000 --> 00:01:50,000
+18  |  NO OVERLAPPING APPOINTMENTS
+Booked slots, breaks and the 10-minute cleanup buffer are excluded from new bookings.
+
+19
+00:01:50,000 --> 00:01:56,000
+19  |  ANY STYLIST
+Combined availability finds an eligible stylist automatically, including during another stylist’s break.
+
+20
+00:01:56,000 --> 00:02:02,000
+20  |  CUSTOMERS CANNOT OPEN THE ADMIN DASHBOARD
+A customer visiting the admin area is sent to the separate admin sign-in page.
+
+21
+00:02:02,000 --> 00:02:09,000
+21  |  ADMIN ID + PHONE + PASSWORD
+Each admin uses an owner-assigned special login ID together with their phone number and password.
+
+22
+00:02:09,000 --> 00:02:15,000
+22  |  A PRIVATE ADMIN DASHBOARD
+Successful admin sign-in opens the dashboard with admin-only navigation and an eight-hour session.
+
+23
+00:02:15,000 --> 00:02:22,000
+23  |  DAILY BOOKINGS & REVENUE
+Choose a day to view appointments grouped by stylist and total confirmed booking revenue.
+
+24
+00:02:22,000 --> 00:02:29,000
+24  |  ADMIN CANCELLATION
+Cancel an appointment: the booking count and confirmed revenue update immediately.
+
+25
+00:02:29,000 --> 00:02:35,000
+25  |  SIGN-OUT REVOKES ADMIN ACCESS
+Signing out ends the admin session and returns to admin sign-in.
+
+26
+00:02:35,000 --> 00:02:41,000
+26  |  RETURN AS A CUSTOMER
+Customer and admin accounts have separate sessions and separate access permissions.
+
+27
+00:02:41,000 --> 00:02:48,000
+27  |  CANCELLED TIMES ARE AVAILABLE AGAIN
+The cancelled 14:00 Facial slot is available again for Meera on the same day.
+
+28
+00:02:48,000 --> 00:02:54,000
+28  |  RESPONSIVE ON MOBILE
+The same booking form adapts to smaller screens, with readable controls and phone-number choices.
+
+29
+00:02:54,000 --> 00:03:00,000
+29  |  SLOTBOOK: ALL FEATURES, ONE APP
+Accounts, booking rules, rescheduling and private admin controls. The full suite passes 77 tests.

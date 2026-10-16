@@ -1,0 +1,1 @@
+Successful admin sign-in opens the dashboard with admin-only navigation and an eight-hour session.

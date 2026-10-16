@@ -1,0 +1,1 @@
+Invalid names are rejected before an appointment is saved.

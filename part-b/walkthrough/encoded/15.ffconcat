@@ -1,0 +1,14 @@
+ffconcat version 1.0
+file '../frames/001101.jpg'
+duration 1.000000000
+file '../frames/001102.jpg'
+duration 1.000000000
+file '../frames/001103.jpg'
+duration 1.000000000
+file '../frames/001104.jpg'
+duration 1.000000000
+file '../frames/001105.jpg'
+duration 1.000000000
+file '../frames/001106.jpg'
+duration 1.000000000
+file '../frames/001106.jpg'

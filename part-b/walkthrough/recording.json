@@ -1,0 +1,444 @@
+{
+  "scenes": [
+    {
+      "id": 1,
+      "title": "01  |  WELCOME TO SLOTBOOK",
+      "subtitle": "A salon booking walkthrough with demo accounts. Passwords stay masked throughout.",
+      "duration": 5,
+      "frames": [
+        "frames/001002.jpg",
+        "frames/001003.jpg",
+        "frames/001004.jpg",
+        "frames/001005.jpg",
+        "frames/001006.jpg"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "02  |  SERVICES & STYLISTS",
+      "subtitle": "Four treatments with transparent prices. Meet Meera and Karan and see their schedules.",
+      "duration": 5,
+      "frames": [
+        "frames/001007.jpg",
+        "frames/001008.jpg",
+        "frames/001009.jpg",
+        "frames/001010.jpg",
+        "frames/001011.jpg",
+        "frames/001012.jpg",
+        "frames/001013.jpg"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "03  |  SIGN IN BEFORE BOOKING",
+      "subtitle": "Guests are redirected to login. Their selected treatment is remembered.",
+      "duration": 5,
+      "frames": [
+        "frames/001014.jpg",
+        "frames/001015.jpg",
+        "frames/001016.jpg",
+        "frames/001017.jpg",
+        "frames/001018.jpg",
+        "frames/001019.jpg",
+        "frames/001020.jpg"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "04  |  CREATE A CUSTOMER ACCOUNT",
+      "subtitle": "Sign up with a name, a 10-digit phone number and a password.",
+      "duration": 5,
+      "frames": [
+        "frames/001021.jpg",
+        "frames/001022.jpg",
+        "frames/001023.jpg",
+        "frames/001024.jpg",
+        "frames/001025.jpg",
+        "frames/001026.jpg",
+        "frames/001027.jpg"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "05  |  ACCOUNT CREATED",
+      "subtitle": "Successful signup returns to the booking page with the customer name and account phone prefilled.",
+      "duration": 6,
+      "frames": [
+        "frames/001030.jpg",
+        "frames/001031.jpg",
+        "frames/001032.jpg",
+        "frames/001033.jpg",
+        "frames/001034.jpg",
+        "frames/001035.jpg"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "06  |  NO DUPLICATE PHONE ACCOUNTS",
+      "subtitle": "An existing phone number cannot create a second account.",
+      "duration": 7,
+      "frames": [
+        "frames/001036.jpg",
+        "frames/001037.jpg",
+        "frames/001038.jpg",
+        "frames/001039.jpg",
+        "frames/001040.jpg",
+        "frames/001041.jpg",
+        "frames/001042.jpg",
+        "frames/001043.jpg",
+        "frames/001044.jpg",
+        "frames/001045.jpg"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "07  |  CUSTOMER SIGN IN",
+      "subtitle": "The phone number and password are checked before the customer can book.",
+      "duration": 6,
+      "frames": [
+        "frames/001046.jpg",
+        "frames/001047.jpg",
+        "frames/001048.jpg",
+        "frames/001049.jpg",
+        "frames/001050.jpg",
+        "frames/001051.jpg",
+        "frames/001052.jpg",
+        "frames/001053.jpg"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "08  |  SELECT YOUR TREATMENT",
+      "subtitle": "Service duration and price update immediately as you choose Haircut, Hair spa, Beard trim or Facial.",
+      "duration": 6,
+      "frames": [
+        "frames/001054.jpg",
+        "frames/001055.jpg",
+        "frames/001056.jpg",
+        "frames/001057.jpg",
+        "frames/001058.jpg",
+        "frames/001059.jpg",
+        "frames/001060.jpg"
+      ]
+    },
+    {
+      "id": 9,
+      "title": "09  |  WEEKLY DAYS OFF",
+      "subtitle": "Meera is off on Sundays. The app shows no available slots on her day off.",
+      "duration": 6,
+      "frames": [
+        "frames/001061.jpg",
+        "frames/001062.jpg",
+        "frames/001063.jpg",
+        "frames/001064.jpg",
+        "frames/001065.jpg",
+        "frames/001066.jpg"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "10  |  NO PAST-DATE BOOKINGS",
+      "subtitle": "Past dates are blocked. The server also rejects times that have already passed today.",
+      "duration": 6,
+      "frames": [
+        "frames/001067.jpg",
+        "frames/001068.jpg",
+        "frames/001069.jpg",
+        "frames/001070.jpg",
+        "frames/001071.jpg",
+        "frames/001072.jpg"
+      ]
+    },
+    {
+      "id": 11,
+      "title": "11  |  LIVE AVAILABILITY",
+      "subtitle": "Start times use 15-minute steps and account for full service duration, breaks and existing bookings.",
+      "duration": 7,
+      "frames": [
+        "frames/001073.jpg",
+        "frames/001074.jpg",
+        "frames/001075.jpg",
+        "frames/001076.jpg",
+        "frames/001077.jpg",
+        "frames/001078.jpg",
+        "frames/001079.jpg"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "12  |  CUSTOMER DETAILS ARE VALIDATED",
+      "subtitle": "Invalid names are rejected before an appointment is saved.",
+      "duration": 6,
+      "frames": [
+        "frames/001080.jpg",
+        "frames/001081.jpg",
+        "frames/001082.jpg",
+        "frames/001083.jpg",
+        "frames/001084.jpg",
+        "frames/001085.jpg",
+        "frames/001086.jpg"
+      ]
+    },
+    {
+      "id": 13,
+      "title": "13  |  ACCOUNT PHONE OR ANOTHER NUMBER",
+      "subtitle": "Choose the account number, or enter another contact number. Exactly 10 digits are required.",
+      "duration": 7,
+      "frames": [
+        "frames/001087.jpg",
+        "frames/001088.jpg",
+        "frames/001089.jpg",
+        "frames/001090.jpg",
+        "frames/001091.jpg",
+        "frames/001092.jpg",
+        "frames/001093.jpg",
+        "frames/001094.jpg"
+      ]
+    },
+    {
+      "id": 14,
+      "title": "14  |  BOOKING CONFIRMED",
+      "subtitle": "The confirmation shows the booking ID, service, stylist, time, price and chosen contact number.",
+      "duration": 7,
+      "frames": [
+        "frames/001095.jpg",
+        "frames/001096.jpg",
+        "frames/001097.jpg",
+        "frames/001098.jpg",
+        "frames/001099.jpg",
+        "frames/001100.jpg"
+      ]
+    },
+    {
+      "id": 15,
+      "title": "15  |  SAVED IN SQLITE",
+      "subtitle": "Refresh the private confirmation link: the saved appointment and contact number remain available.",
+      "duration": 6,
+      "frames": [
+        "frames/001101.jpg",
+        "frames/001102.jpg",
+        "frames/001103.jpg",
+        "frames/001104.jpg",
+        "frames/001105.jpg",
+        "frames/001106.jpg"
+      ]
+    },
+    {
+      "id": 16,
+      "title": "16  |  RESCHEDULE WITHOUT CANCELLING",
+      "subtitle": "Open the saved appointment to choose a new treatment, stylist, date or time.",
+      "duration": 6,
+      "frames": [
+        "frames/001107.jpg",
+        "frames/001108.jpg",
+        "frames/001109.jpg",
+        "frames/001110.jpg",
+        "frames/001111.jpg",
+        "frames/001112.jpg",
+        "frames/001113.jpg",
+        "frames/001114.jpg"
+      ]
+    },
+    {
+      "id": 17,
+      "title": "17  |  SAME BOOKING ID, UPDATED APPOINTMENT",
+      "subtitle": "The booking is now a 14:00 Facial for 900 rupees. Its ID and contact number are unchanged.",
+      "duration": 7,
+      "frames": [
+        "frames/001115.jpg",
+        "frames/001116.jpg",
+        "frames/001117.jpg",
+        "frames/001118.jpg",
+        "frames/001119.jpg",
+        "frames/001120.jpg",
+        "frames/001121.jpg"
+      ]
+    },
+    {
+      "id": 18,
+      "title": "18  |  NO OVERLAPPING APPOINTMENTS",
+      "subtitle": "Booked slots, breaks and the 10-minute cleanup buffer are excluded from new bookings.",
+      "duration": 7,
+      "frames": [
+        "frames/001122.jpg",
+        "frames/001123.jpg",
+        "frames/001124.jpg",
+        "frames/001125.jpg",
+        "frames/001126.jpg",
+        "frames/001127.jpg",
+        "frames/001128.jpg",
+        "frames/001129.jpg",
+        "frames/001130.jpg"
+      ]
+    },
+    {
+      "id": 19,
+      "title": "19  |  ANY STYLIST",
+      "subtitle": "Combined availability finds an eligible stylist automatically, including during another stylist’s break.",
+      "duration": 6,
+      "frames": [
+        "frames/001131.jpg",
+        "frames/001132.jpg",
+        "frames/001133.jpg",
+        "frames/001134.jpg",
+        "frames/001135.jpg",
+        "frames/001136.jpg",
+        "frames/001137.jpg",
+        "frames/001138.jpg",
+        "frames/001139.jpg"
+      ]
+    },
+    {
+      "id": 20,
+      "title": "20  |  CUSTOMERS CANNOT OPEN THE ADMIN DASHBOARD",
+      "subtitle": "A customer visiting the admin area is sent to the separate admin sign-in page.",
+      "duration": 6,
+      "frames": [
+        "frames/001140.jpg",
+        "frames/001141.jpg",
+        "frames/001142.jpg",
+        "frames/001143.jpg",
+        "frames/001144.jpg",
+        "frames/001145.jpg",
+        "frames/001146.jpg"
+      ]
+    },
+    {
+      "id": 21,
+      "title": "21  |  ADMIN ID + PHONE + PASSWORD",
+      "subtitle": "Each admin uses an owner-assigned special login ID together with their phone number and password.",
+      "duration": 7,
+      "frames": [
+        "frames/001147.jpg",
+        "frames/001148.jpg",
+        "frames/001149.jpg",
+        "frames/001150.jpg",
+        "frames/001151.jpg",
+        "frames/001152.jpg"
+      ]
+    },
+    {
+      "id": 22,
+      "title": "22  |  A PRIVATE ADMIN DASHBOARD",
+      "subtitle": "Successful admin sign-in opens the dashboard with admin-only navigation and an eight-hour session.",
+      "duration": 6,
+      "frames": [
+        "frames/001153.jpg",
+        "frames/001154.jpg",
+        "frames/001155.jpg",
+        "frames/001156.jpg",
+        "frames/001157.jpg",
+        "frames/001158.jpg",
+        "frames/001159.jpg",
+        "frames/001160.jpg"
+      ]
+    },
+    {
+      "id": 23,
+      "title": "23  |  DAILY BOOKINGS & REVENUE",
+      "subtitle": "Choose a day to view appointments grouped by stylist and total confirmed booking revenue.",
+      "duration": 7,
+      "frames": [
+        "frames/001161.jpg",
+        "frames/001162.jpg",
+        "frames/001163.jpg",
+        "frames/001164.jpg",
+        "frames/001165.jpg",
+        "frames/001166.jpg"
+      ]
+    },
+    {
+      "id": 24,
+      "title": "24  |  ADMIN CANCELLATION",
+      "subtitle": "Cancel an appointment: the booking count and confirmed revenue update immediately.",
+      "duration": 7,
+      "frames": [
+        "frames/001167.jpg",
+        "frames/001168.jpg",
+        "frames/001169.jpg",
+        "frames/001170.jpg",
+        "frames/001171.jpg",
+        "frames/001172.jpg",
+        "frames/001173.jpg"
+      ]
+    },
+    {
+      "id": 25,
+      "title": "25  |  SIGN-OUT REVOKES ADMIN ACCESS",
+      "subtitle": "Signing out ends the admin session and returns to admin sign-in.",
+      "duration": 6,
+      "frames": [
+        "frames/001174.jpg",
+        "frames/001175.jpg",
+        "frames/001176.jpg",
+        "frames/001177.jpg",
+        "frames/001178.jpg",
+        "frames/001179.jpg",
+        "frames/001180.jpg"
+      ]
+    },
+    {
+      "id": 26,
+      "title": "26  |  RETURN AS A CUSTOMER",
+      "subtitle": "Customer and admin accounts have separate sessions and separate access permissions.",
+      "duration": 6,
+      "frames": [
+        "frames/001181.jpg",
+        "frames/001182.jpg",
+        "frames/001183.jpg",
+        "frames/001184.jpg",
+        "frames/001185.jpg",
+        "frames/001186.jpg",
+        "frames/001187.jpg",
+        "frames/001188.jpg"
+      ]
+    },
+    {
+      "id": 27,
+      "title": "27  |  CANCELLED TIMES ARE AVAILABLE AGAIN",
+      "subtitle": "The cancelled 14:00 Facial slot is available again for Meera on the same day.",
+      "duration": 7,
+      "frames": [
+        "frames/001189.jpg",
+        "frames/001190.jpg",
+        "frames/001191.jpg",
+        "frames/001192.jpg",
+        "frames/001193.jpg",
+        "frames/001194.jpg",
+        "frames/001195.jpg",
+        "frames/001196.jpg"
+      ]
+    },
+    {
+      "id": 28,
+      "title": "28  |  RESPONSIVE ON MOBILE",
+      "subtitle": "The same booking form adapts to smaller screens, with readable controls and phone-number choices.",
+      "duration": 6,
+      "frames": [
+        "frames/001197.jpg",
+        "frames/001198.jpg",
+        "frames/001199.jpg",
+        "frames/001200.jpg",
+        "frames/001201.jpg",
+        "frames/001202.jpg",
+        "frames/001203.jpg"
+      ]
+    },
+    {
+      "id": 29,
+      "title": "29  |  SLOTBOOK: ALL FEATURES, ONE APP",
+      "subtitle": "Accounts, booking rules, rescheduling and private admin controls. The full suite passes 77 tests.",
+      "duration": 6,
+      "frames": [
+        "frames/001204.jpg",
+        "frames/001205.jpg",
+        "frames/001206.jpg",
+        "frames/001207.jpg",
+        "frames/001208.jpg",
+        "frames/001209.jpg",
+        "frames/001210.jpg"
+      ]
+    }
+  ],
+  "counter": 1210
+}

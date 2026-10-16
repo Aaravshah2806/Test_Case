@@ -1,0 +1,1 @@
+Sign up with a name, a 10-digit phone number and a password.
