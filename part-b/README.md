@@ -1,17 +1,43 @@
-# Slotbook
+# Part B — Slotbook Salon Booking App
 
 A responsive salon booking app with a Node.js HTTP backend, real SQLite storage, and a plain JavaScript frontend. No package installation or build step is needed.
 
 ## Run
 
-Install **Node.js 24 LTS or later**, then open a terminal:
+Install **Node.js 24 or later**, then open a terminal at the repository root:
 
 ```powershell
-cd D:\Projects\Test_case_Techsperia\part-b
+cd part-b
 npm start
 ```
 
 Open **http://localhost:3000**. The database is created and seeded on first run in `data/slotbook.sqlite`. Restarting retains appointments. The four services and two stylist schedules match the assignment.
+
+**One command starts both frontend and backend.** Keep the terminal running; press `Ctrl+C` to stop the app. No separate frontend server or `npm install` step is needed.
+
+| Page | Local URL |
+| --- | --- |
+| Home | http://localhost:3000/ |
+| Customer sign-in / sign-up | http://localhost:3000/login |
+| Booking | http://localhost:3000/book |
+| Admin sign-in | http://localhost:3000/admin/login |
+| Protected dashboard | http://localhost:3000/admin |
+
+## Seed data
+
+| Service | Duration | Price |
+| --- | --- | --- |
+| Haircut | 30 minutes | ₹400 |
+| Hair spa | 60 minutes | ₹1,200 |
+| Beard trim | 15 minutes | ₹200 |
+| Facial | 45 minutes | ₹900 |
+
+| Stylist | Working days | Working hours | Break | Weekly day off |
+| --- | --- | --- | --- | --- |
+| Meera | Monday–Saturday | 10:00–19:00 | 13:00–14:00 | Sunday |
+| Karan | Tuesday–Sunday | 11:00–20:00 | 15:00–15:30 | Monday |
+
+Weekly days off and daily breaks block availability. Custom holiday dates and individual leave management are not implemented.
 
 The home page shows treatments, prices and stylist schedules. Its booking buttons lead to **http://localhost:3000/book**. Clicking a treatment opens the booking page with that service selected. Confirmation has a private management link; refreshing that page reloads the saved booking, and you can reschedule from there.
 
@@ -32,7 +58,8 @@ This flow uses **phone number + password**, not SMS verification. No SMS service
 The salon owner creates each admin account locally:
 
 ```powershell
-cd D:\Projects\Test_case_Techsperia\part-b
+# In a second terminal, from the repository root:
+cd part-b
 npm run admin:create
 ```
 
@@ -44,10 +71,16 @@ Admin sessions use a separate HttpOnly cookie and a separate SQLite session tabl
 
 For non-interactive owner provisioning, the command accepts `SLOTBOOK_ADMIN_NAME`, `SLOTBOOK_ADMIN_PHONE` and `SLOTBOOK_ADMIN_PASSWORD` from environment variables. Do not put passwords in command arguments, source files or version control.
 
-```powershell
+## Testing
+
+From `part-b`, run:
+
+```sh
 npm test
 npm run check
 ```
+
+The automated suite contains **77 tests**. Tests use isolated databases and do not change saved appointments. See [TESTING.md](TESTING.md) for coverage and browser verification.
 
 ## Assignment coverage
 
@@ -96,6 +129,31 @@ frontend/style.css            Responsive styles
 
 Detailed test coverage and browser verification results are recorded in `TESTING.md`.
 
+## Website walkthrough
+
+A three-minute captioned recording demonstrates the home page, customer signup and login, validation, phone choices, booking rules, confirmation, rescheduling, Any stylist, admin login, revenue, cancellation and mobile layout. It uses fictitious accounts in an isolated database.
+
+See [walkthrough notes](walkthrough/README.md) and [the MP4 recording](walkthrough/slotbook-walkthrough.mp4).
+
+## Configuration
+
+| Environment variable | Default | Purpose |
+| --- | --- | --- |
+| `PORT` | `3000` | HTTP port |
+| `HOST` | `127.0.0.1` | Listening address; use `0.0.0.0` for container hosting |
+| `DB_PATH` | Project's `data/slotbook.sqlite` | SQLite location; use the same setting when provisioning admins |
+| `COOKIE_SECURE` | Unset | Set to `1` for HTTPS hosting |
+| `CORE_MODE` | Unset | Set to `1` only for Level 1 availability mode; leave unset for the complete app |
+
+To use another port in PowerShell:
+
+```powershell
+$env:PORT = "3001"
+npm start
+```
+
+If port 3000 is occupied, stop the existing Slotbook process with `Ctrl+C` in its terminal or choose another port. If `node:sqlite` is unavailable, check `node --version` and use Node.js 24 or newer.
+
 ## API
 
 Customer authentication uses an HttpOnly session cookie. `POST /api/auth/signup` accepts `{name,mobile,password}`; `POST /api/auth/login` accepts `{mobile,password}`. Both return public customer details and set the session cookie. `GET /api/auth/session` returns `{customer,admin}` (both null for guests); `POST /api/auth/logout` revokes the current customer session and clears its cookie. Auth, availability and appointment endpoints never return password hashes or session tokens in JSON.
@@ -127,3 +185,9 @@ docker exec -it slotbook npm run admin:create
 ```
 
 Set `COOKIE_SECURE=1` when hosting behind HTTPS. Keep the SQLite file backed up; temporary container filesystems lose bookings, customer accounts and admin accounts. This assignment app does not provide SMS delivery or payment processing.
+
+## GitHub submission
+
+The included `.gitignore` excludes `data/`, `node_modules/`, `.env` and logs. Do not commit real databases, customer details or credentials. There are no default admin credentials: reviewers can create an admin locally with `npm run admin:create`.
+
+[Back to repository README](../README.md)
